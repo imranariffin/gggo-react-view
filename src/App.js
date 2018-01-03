@@ -8,6 +8,9 @@ import StoneFactory from './util/StoneFactory';
 import { E, B, W } from './constants/stones';
 import { BOARD_SIZE } from './constants/board';
 
+// import unirest from 'unirest';
+import axios from 'axios';
+
 const m = [
   [E, E, E, E, E, E, E, E, E,],
   [E, E, E, E, E, E, E, E, E,],
@@ -95,6 +98,15 @@ class Go extends Component {
   handleClick(e) {
     const { i, j, t } = this.state;
     m[i][j] = t % 2 == 0 ? B : W;
+
+    axios
+      .get('http://localhost:8081/GGGo/api/online-users')
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     this.setState({
       t: this.state.t + 1,
