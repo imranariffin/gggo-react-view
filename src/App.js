@@ -14,11 +14,11 @@ import axios from 'axios';
 const m = [
   [E, E, E, E, E, E, E, E, E,],
   [E, E, E, E, E, E, E, E, E,],
-  [E, E, E, E, E, B, E, E, E,],
+  [E, E, E, E, E, E, E, E, E,],
 
-  [E, E, E, W, W, B, E, E, E,],
-  [E, E, E, W, B, B, E, E, E,],
-  [E, E, E, W, E, E, E, E, E,],
+  [E, E, E, E, E, E, E, E, E,],
+  [E, E, E, E, E, E, E, E, E,],
+  [E, E, E, E, E, E, E, E, E,],
 
   [E, E, E, E, E, E, E, E, E,],
   [E, E, E, E, E, E, E, E, E,],
@@ -58,24 +58,62 @@ class Go extends Component {
       }
     }
 
-    const h = window.innerHeight;
     const boardStyle = {
-      height: h,
-      widht: h,
+      height: '100%',
+      width: '100%',
     };
 
     return (
-      <div>
-        { stones }
-        <img id="go-board" src="img/go-board-9-9.png"
-          style={boardStyle}
-          onMouseMove={this.handleHover} 
-          
-        />
-        <PlacingStone 
-          {...this.state}
-          handleClick={this.handleClick}
-        />
+      <div id="board-container" className="row">
+        <div className="col-md-3 left-panel">
+          <div className="row">
+            <div className="col-md-12">
+              <img className="profile-pic-stone" src="img/go-stone-black.png" />
+              <img className="profile-pic-2" src="img/sai3.jpeg" />
+            </div>
+          </div>
+          <div className="card">
+            <img 
+              className="round-pic"
+              width="100%"
+              src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%282%29.jpg" 
+              alt="Card image cap" 
+            />
+            <div className="card-body">
+              <a href="#"><h4 class="card-title">saifujiwara</h4></a>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-6 board">
+          { stones }
+          <img id="go-board" src="img/go-board-9-9.png"
+            style={boardStyle}
+            onMouseMove={this.handleHover} 
+          />
+          <PlacingStone 
+            {...this.state}
+            handleClick={this.handleClick}
+          />
+        </div>
+        <div className="col-md-3 right-panel">
+          <div className="row">
+            <div className="col-md-12">
+              <img className="profile-pic-stone" src="img/go-stone-white.png" />
+              <img className="profile-pic-2" src="img/hikaru.jpeg" />
+            </div>
+          </div>
+          <div className="card">
+            <img 
+              className="round-pic"
+              width="100%" 
+              src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%282%29.jpg" 
+              alt="Card image cap" 
+            />
+            <div className="card-body">
+              <a href="#"><h4 class="card-title">hikaru</h4></a>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -89,9 +127,13 @@ class Go extends Component {
     const i = pos.i;
     const j = pos.j;
 
-    console.log("hover!");
+    if (this.offTheBoard(x, y)) {
+      console.log("off the board!");
+      return;
+    }
+
     this.setState({
-        i: i, j: j, t: this.state.t,
+      i: i, j: j, t: this.state.t,
     });
   }
 
@@ -112,7 +154,28 @@ class Go extends Component {
       t: this.state.t + 1,
       m: m,
     });
+  }
 
+  offTheBoard(x, y) {
+    const boardContainer = document.getElementById("board-container");
+
+    const error = 0.2;
+    const offset = Util.getBoardOffset();
+    const x0 = Util.getOffsetLeft(boardContainer);
+    const y0 = Util.getOffsetTop(boardContainer);
+    const w = parseFloat(boardContainer.style.width);
+    const h = parseFloat(boardContainer.style.height);
+
+    if (
+      x < x0 + offset - error ||
+      x > x0 + w - offset + error ||
+      y < y0 + offset - error ||
+      y > y0 + h - offset + error
+    ) {
+      return true;
+    }
+
+    return false;
   }
 }
 

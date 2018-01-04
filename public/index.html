@@ -18,7 +18,29 @@
     <title>React App</title>
   </head>
   <body>
-    <div class="main">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">
+            <img class="logo" alt="GGGo" src="img/go-symbol-logo.jpg">
+          </a>
+        </div>
+        <a class="navbar-brand" href="home">
+          <img alt="GGGo">
+        </a>
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a class="navbar-brand" href="home">
+              <img class="profile-pic" alt="" src="img/sai3.jpeg">
+            </a>
+          </li>
+          <li><a href="logout">logout</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <input type="hidden" name="gameId" value="123" id="gameId">
+    <div id="game-container" class="main">
       <div id="root"></div>
     </div>
   </body>
